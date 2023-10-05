@@ -1,0 +1,112 @@
+{
+  "name": "github-issue-blog",
+  "displayName": "Github Issue Blog",
+  "description": "A vscode plugin to create a blog with issue",
+  "version": "0.0.1",
+  "author": "wtto00",
+  "publisher": "wtto00",
+  "license": "MIT",
+  "keywords": [
+    "issue",
+    "blog",
+    "github"
+  ],
+  "icon": "resource/images/logo.png",
+  "galleryBanner": {
+    "color": "#FF714C",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Notebooks",
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:github-issue-blog.create",
+    "onCommand:github-issue-blog.update",
+    "onCommand:github-issue-blog.list"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "github-issue-blog.create",
+        "title": "Github Issue Blog: Create Issue"
+      },
+      {
+        "command": "github-issue-blog.update",
+        "title": "Github Issue Blog: Update Issue"
+      },
+      {
+        "command": "github-issue-blog.list",
+        "title": "Github Issue Blog: Get Issue List"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "github-issue-blog.create",
+          "group": "1_modification",
+          "when": "resourceLangId == markdown"
+        },
+        {
+          "command": "github-issue-blog.update",
+          "group": "1_modification",
+          "when": "resourceLangId == markdown"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "github-issue-blog.create",
+          "group": "1_modification",
+          "when": "resourceLangId == markdown"
+        },
+        {
+          "command": "github-issue-blog.update",
+          "group": "1_modification",
+          "when": "resourceLangId == markdown"
+        }
+      ]
+    },
+    "configuration": [
+      {
+        "type": "object",
+        "title": "Github Issue Blog",
+        "properties": {
+          "github-issue-blog.repo": {
+            "type": "string",
+            "default": "",
+            "markdownDescription": "repository name of github"
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.2",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.82.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.50.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@octokit/rest": "^20.0.2",
+    "gray-matter": "^4.0.3",
+    "open": "^8.4.2"
+  }
+}
