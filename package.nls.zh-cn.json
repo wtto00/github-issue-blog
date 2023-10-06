@@ -1,0 +1,6 @@
+{
+  "commands.create": "Github Issue Blog: 创建Issue",
+  "commands.update": "Github Issue Blog: 更新Issue",
+
+  "configuration.repo": "博客所属的Github仓库名称（例如：wtto00/github-issue-blog）"
+}

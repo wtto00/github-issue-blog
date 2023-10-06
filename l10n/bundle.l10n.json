@@ -1,0 +1,25 @@
+{
+  "getPostContent": "Get content of the blog article",
+  "requestAuth": "Request Github authorization",
+  "unauthorized": "Unauthorized access",
+  "getRepository": "Get blog repository",
+  "createIssue": "Create issue",
+  "createSuccess": "Issue creation successful",
+  "viewInBrowser": "View in browser",
+  "updateIssue": "Update issue",
+  "updateSuccess": "Updated Issue successfully",
+
+  "noFileOpened": "No open files",
+  "currentNotMD": "The current file is not of the Markdown type",
+  "fileNotFound": "File not found: ",
+
+  "titleEmpty": "The title cannot be empty",
+  "unkonwnIssue": "Unknown Issue",
+  "createFail": "Failed to create issue",
+  "updateFail": "Failed to update issue",
+
+  "getRepositoryFail": "Failed to retrieve the list of repositories",
+  "noRepository": "You have not created a GitHub repository yet",
+  "blogRepository": "Repository of blog",
+  "slectRepository": "Please select the repository for the blog."
+}

@@ -6,12 +6,16 @@
   "author": "wtto00",
   "publisher": "wtto00",
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/wtto00/github-issue-blog",
+    "type": "git"
+  },
   "keywords": [
     "issue",
     "blog",
     "github"
   ],
-  "icon": "resource/images/logo.png",
+  "icon": "resources/images/logo.png",
   "galleryBanner": {
     "color": "#FF714C",
     "theme": "dark"
@@ -25,23 +29,19 @@
   ],
   "activationEvents": [
     "onCommand:github-issue-blog.create",
-    "onCommand:github-issue-blog.update",
-    "onCommand:github-issue-blog.list"
+    "onCommand:github-issue-blog.update"
   ],
   "main": "./out/extension.js",
+  "l10n": "./l10n",
   "contributes": {
     "commands": [
       {
         "command": "github-issue-blog.create",
-        "title": "Github Issue Blog: Create Issue"
+        "title": "%commands.create%"
       },
       {
         "command": "github-issue-blog.update",
-        "title": "Github Issue Blog: Update Issue"
-      },
-      {
-        "command": "github-issue-blog.list",
-        "title": "Github Issue Blog: Get Issue List"
+        "title": "%commands.update%"
       }
     ],
     "menus": {
@@ -68,6 +68,18 @@
           "group": "1_modification",
           "when": "resourceLangId == markdown"
         }
+      ],
+      "editor/title/context": [
+        {
+          "command": "github-issue-blog.create",
+          "group": "1_modification",
+          "when": "resourceLangId == markdown"
+        },
+        {
+          "command": "github-issue-blog.update",
+          "group": "1_modification",
+          "when": "resourceLangId == markdown"
+        }
       ]
     },
     "configuration": [
@@ -78,17 +90,18 @@
           "github-issue-blog.repo": {
             "type": "string",
             "default": "",
-            "markdownDescription": "repository name of github"
+            "markdownDescription": "%configuration.repo%"
           }
         }
       }
     ]
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run compile",
+    "package": "npm run vscode:prepublish && vsce package",
+    "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "pnpm run compile && pnpm run lint",
+    "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
   },
@@ -98,6 +111,7 @@
     "@types/vscode": "^1.82.0",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
+    "@vscode/l10n-dev": "^0.0.29",
     "@vscode/test-electron": "^2.3.4",
     "eslint": "^8.50.0",
     "glob": "^10.3.3",
@@ -106,6 +120,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^20.0.2",
+    "@vscode/l10n": "^0.0.16",
     "gray-matter": "^4.0.3",
     "open": "^8.4.2"
   }

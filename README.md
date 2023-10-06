@@ -1,71 +1,64 @@
-# github-issue-blog README
+# github-issue-blog
 
-This is the README for your extension "github-issue-blog". After writing up a brief description, we recommend including the following sections.
+A vscode plugin to create blogs with issue.
 
-## Features
+[Github](https://github.com/wtto00/github-issue-blog)
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Install
 
-For example if there is an image subfolder under your extension project workspace:
+- Search for `github issue blog` in the VS Code extension marketplace.
 
-\!\[feature X\]\(images/feature-x.png\)
+## Configuration
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+| Key                    | Type   | Notes                     |
+| ---------------------- | ------ | ------------------------- |
+| github-issue-blog.repo | string | repository name of github |
 
-## Requirements
+If this configuration is not set, when executing the command, it will prompt the user to choose the repository associated with their GitHub account and configure it automatically.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Usage
 
-## Extension Settings
+- Github Issue Blog: Create Issue
+- Github Issue Blog: Update Issue
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+1. Global command
 
-For example:
+   You can use `ctrl+shift+p` to open the command palette, then type `issue blog` to see these two commands.
 
-This extension contributes the following settings:
+   > `command+shift+p` on Mac
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+1. Explorer context menu
 
-## Known Issues
+   In File Explorer, you can right-click on an `md` file and see these two commands.
+   If you click on something other than an `md` file, you will not see it.
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+1. Editor context menu
 
-## Release Notes
+   If the currently open editor is a markdown file, including unsaved draft files, right-clicking on the editor will display these two commands.
 
-Users appreciate release notes as you update your extension.
+1. Editor title context menu
 
-### 1.0.0
+   In the editor, right-click on one of the markdown files in the open file tabs, and you will see these two commands.
 
-Initial release of ...
+### Variables in markdown files
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
+```yml
 ---
+title: issue-blog-title
+labels:
+  - bug
+  - abcd
+issue_number: 24
+---
+## Headline
+```
 
-## Following extension guidelines
+| Name         | Type     | Notes                  |
+| ------------ | -------- | ---------------------- |
+| title        | string   | Title of the blog post |
+| labels       | string[] | Labels of issue        |
+| issue_number | number   | Number of issue        |
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- `title` is necessary.
+- `labels` are not mandatory, they will be automatically created if they do not exist.
+- `issue_number` is required when updating an issue. When creating an issue, the `issue_number` will be automatically updated to the number of the issue that is created.

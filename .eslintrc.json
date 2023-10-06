@@ -8,7 +8,10 @@
   "plugins": ["@typescript-eslint"],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/stylistic"],
   "rules": {
-    "@typescript-eslint/naming-convention": "warn",
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      { "selector": "memberLike", "format": ["camelCase", "snake_case", "UPPER_CASE"] }
+    ],
     "@typescript-eslint/semi": "warn",
     "eqeqeq": "warn",
     "no-throw-literal": "warn",

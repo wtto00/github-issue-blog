@@ -1,62 +1,105 @@
 import * as vscode from "vscode";
-import type { Credentials } from "./credentials";
-import { getFilePath, parse } from "./file";
-import { createIssue, getRepo } from "./github";
+import { Credentials } from "./credentials";
+import { FileUtil } from "./file";
+import { Github, getRepo } from "./github";
 import * as open from "open";
+import { initStatusBar } from "./statusBar";
+import { initL10n } from "./i10n";
+import * as l10n from "@vscode/l10n";
 
 export interface CommandParmas {
   uri?: vscode.Uri;
   credentials: Credentials;
+  statusBarItem: vscode.StatusBarItem;
 }
 
-export async function create(prams: CommandParmas) {
-  let progressPos = 0;
-  vscode.window.withProgress(
-    { location: vscode.ProgressLocation.Notification, title: "Create Issue" },
-    async (progress) => {
-      try {
-        progress.report({ increment: 0, message: "获取博客文章文件..." });
+export class Command {
+  #context: vscode.ExtensionContext;
+  #credentials: Credentials;
+  statusBarItem: vscode.StatusBarItem;
 
-        const { uri, credentials } = prams;
-        const filePath = getFilePath(uri);
+  github?: Github;
 
-        progress.report({ increment: 20 - progressPos, message: "请求Github授权..." });
-        progressPos = 20;
-        const octokit = await credentials.getOctokit();
-        if (!octokit) throw Error("未获得授权");
+  constructor(context: vscode.ExtensionContext) {
+    this.#context = context;
+    this.#credentials = new Credentials();
+    this.statusBarItem = initStatusBar(this.#context.subscriptions);
+  }
 
-        progress.report({ increment: 40 - progressPos, message: "获取博客仓库..." });
-        progressPos = 40;
-        const repo = await getRepo(octokit);
+  async init() {
+    await this.#credentials?.initialize(this.#context);
+    initL10n();
+  }
 
-        progress.report({ increment: 60 - progressPos, message: "解析文章内容..." });
-        progressPos = 60;
-        const issueData = parse(filePath);
+  async prepare(uri: vscode.Uri) {
+    this.statusBarItem.text = `$(sync~spin) ${l10n.t("getPostContent")}...`;
+    const file = new FileUtil(uri);
 
-        progress.report({ increment: 80 - progressPos, message: "创建仓库Issue..." });
-        progressPos = 80;
-        const url = await createIssue(octokit, repo, issueData, filePath);
+    this.statusBarItem.text = `$(sync~spin) ${l10n.t("requestAuth")}...`;
+    const octokit = await this.#credentials.getOctokit();
+    if (!octokit) throw Error(l10n.t("unauthorized"));
 
-        progress.report({ increment: 100 - progressPos, message: "创建Issue成功" });
-        progressPos = 100;
-        const btn = await vscode.window.showInformationMessage("创建Issue成功", "前往查看");
-        if (btn === "前往查看") {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          await open(url);
-        }
-      } catch (error) {
-        progress.report({ increment: 100 - progressPos, message: "出错了" });
-        vscode.window.showErrorMessage((error as Error).message);
+    this.statusBarItem.text = `$(sync~spin) ${l10n.t("getRepository")}...`;
+    const repo = await getRepo(octokit);
+
+    this.github = new Github({ octokit, repo, file });
+  }
+
+  createIssue = async (uri: vscode.Uri) => {
+    try {
+      this.statusBarItem.show();
+      await this.prepare(uri);
+
+      this.statusBarItem.text = `$(sync~spin) ${l10n.t("createIssue")}...`;
+      const url = await this.github!.createIssue();
+
+      this.statusBarItem.hide();
+      const btn = await vscode.window.showInformationMessage(
+        l10n.t("createSuccess"),
+        l10n.t("viewInBrowser")
+      );
+      if (btn) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        await open(url);
       }
+    } catch (error) {
+      vscode.window.showErrorMessage((error as Error).message);
+      this.statusBarItem.hide();
     }
-  );
-}
+  };
 
-export async function update() {
-  // todo
-}
+  updateIssue = async (uri: vscode.Uri) => {
+    try {
+      this.statusBarItem.show();
+      await this.prepare(uri);
 
-export async function list() {
-  // todo
+      this.statusBarItem.text = `$(sync~spin) ${l10n.t("updateIssue")}...`;
+      const url = await this.github!.updateIssue();
+
+      this.statusBarItem.hide();
+      const btn = await vscode.window.showInformationMessage(
+        l10n.t("updateSuccess"),
+        l10n.t("viewInBrowser")
+      );
+      if (btn) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        await open(url);
+      }
+    } catch (error) {
+      vscode.window.showErrorMessage((error as Error).message);
+      this.statusBarItem.hide();
+    }
+  };
+
+  getIssueList = async (uri: vscode.Uri) => {
+    try {
+      this.statusBarItem.show();
+      await this.prepare(uri);
+    } catch (error) {
+      vscode.window.showErrorMessage((error as Error).message);
+      this.statusBarItem.hide();
+    }
+  };
 }

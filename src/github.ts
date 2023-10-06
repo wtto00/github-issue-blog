@@ -1,10 +1,87 @@
 import * as vscode from "vscode";
 import * as Octokit from "@octokit/rest";
-import { updateMDContent, type IssueData } from "./file";
+import { FileUtil } from "./file";
+import * as l10n from "@vscode/l10n";
 
 export interface RepoInfo {
   owner: string;
   repo: string;
+}
+
+export interface GithubProps {
+  octokit: Octokit.Octokit;
+  file: FileUtil;
+  repo: RepoInfo;
+}
+
+export class Github {
+  octokit: Octokit.Octokit;
+  file: FileUtil;
+  repo: RepoInfo;
+
+  constructor(props: GithubProps) {
+    this.octokit = props.octokit;
+    this.file = props.file;
+    this.repo = props.repo;
+  }
+
+  checkTitle() {
+    const { title = "" } = this.file.issueData.data || {};
+    if (!title) {
+      this.file.updateMDContent({ title: "" });
+      throw Error(l10n.t("titleEmpty"));
+    }
+  }
+  checkId() {
+    const { issue_number } = this.file.issueData.data || {};
+    if (!issue_number) {
+      this.file.updateMDContent({ issue_number: 0 });
+      throw Error(l10n.t("unkonwnIssue"));
+    }
+  }
+
+  async createIssue() {
+    const { content, data = {} } = this.file.issueData;
+    const { title = "", labels = [] } = data;
+    this.checkTitle();
+
+    const res = await this.octokit.rest.issues.create({
+      owner: this.repo.owner,
+      repo: this.repo.repo,
+      title,
+      body: content,
+      labels: labels.map((label) => ({ name: label })),
+    });
+    if (!res.data) throw Error(l10n.t("createFail"));
+    const number = res.data.number;
+    this.file.updateMDContent({ issue_number: number });
+    return res.data.html_url;
+  }
+
+  async updateIssue() {
+    const { content, data = {} } = this.file.issueData;
+    const { issue_number = 0, title, labels = [] } = data;
+    this.checkId();
+    const res = await this.octokit.rest.issues.update({
+      owner: this.repo.owner,
+      repo: this.repo.repo,
+      issue_number: issue_number,
+      title: title,
+      body: content,
+      labels: labels.map((label) => ({ name: label })),
+    });
+    if (!res.data) throw Error(l10n.t("updateFail"));
+    this.file.updateMDContent({});
+    return res.data.html_url;
+  }
+
+  async getIssueList() {
+    const res = await this.octokit.rest.issues.listForRepo({
+      owner: this.repo.owner,
+      repo: this.repo.repo,
+    });
+    console.log("getIssueList", res.data);
+  }
 }
 
 export async function getRepo(octokit: Octokit.Octokit): Promise<RepoInfo> {
@@ -13,48 +90,22 @@ export async function getRepo(octokit: Octokit.Octokit): Promise<RepoInfo> {
   if (!repository) {
     const res = await octokit.rest.repos.listForAuthenticatedUser();
     const repoList = res.data;
-    if (!repoList) throw Error("获取仓库列表失败");
+    if (!repoList) throw Error(l10n.t("getRepositoryFail"));
 
-    if (repoList.length === 0) throw Error("您还没有创建Github仓库");
+    if (repoList.length === 0) throw Error(l10n.t("noRepository"));
 
     const selectedItem = await vscode.window.showQuickPick(
       repoList.map((item) => ({ label: item.full_name, description: item.html_url })),
       {
-        title: "博客仓库",
-        placeHolder: "请选择博客的仓库",
+        title: l10n.t("blogRepository"),
+        placeHolder: l10n.t("slectRepository"),
       }
     );
-    if (!selectedItem) throw Error("请选择博客的仓库");
+    if (!selectedItem) throw Error(l10n.t("slectRepository"));
 
     repository = selectedItem.label;
     configuration.update("github-issue-blog.repo", repository);
   }
   const [owner, repo] = repository.split("/");
   return { owner, repo };
-}
-
-export async function createIssue(
-  octokit: Octokit.Octokit,
-  repoInfo: RepoInfo,
-  issueData: IssueData,
-  filePath: string
-) {
-  const { content, data = {} } = issueData;
-  const { title = "", labels = [] } = data;
-  if (!title) {
-    updateMDContent(filePath, { content, data: { ...data, title: "" } });
-    throw Error("标题不能为空");
-  }
-
-  const res = await octokit.rest.issues.create({
-    owner: repoInfo.owner,
-    repo: repoInfo.repo,
-    title,
-    body: content,
-    labels: labels.map((label) => ({ name: label })),
-  });
-  if (!res.data) throw Error("创建Issue失败");
-  const number = res.data.number;
-  updateMDContent(filePath, { content, data: { ...data, id: number } });
-  return res.data.html_url;
 }

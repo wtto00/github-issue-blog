@@ -1,23 +1,17 @@
 import * as vscode from "vscode";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync } from "fs";
 import * as matter from "gray-matter";
+import * as l10n from "@vscode/l10n";
 
-export function getFilePath(uri?: vscode.Uri) {
-  let filePath = uri?.fsPath;
-  if (!filePath) {
-    if (!vscode.window.activeTextEditor?.document) throw Error("没有打开的文件");
-
-    if (vscode.window.activeTextEditor.document.languageId !== "markdown") throw Error("打开的不是Markdown文件");
-
-    filePath = vscode.window.activeTextEditor.document.fileName;
-  }
-  return filePath;
+export interface FileInfo {
+  path: string;
+  isUntitled?: boolean;
 }
 
 export interface MatterData {
-  id?: number;
   title?: string;
   labels?: string[];
+  issue_number?: number;
 }
 
 export interface IssueData {
@@ -25,15 +19,58 @@ export interface IssueData {
   data: MatterData;
 }
 
-export function parse(filePath: string): IssueData {
-  if (!filePath) throw Error("未知的文件路径");
+export class FileUtil {
+  issueData: IssueData;
+  uri: vscode.Uri;
 
-  const md = readFileSync(filePath, { encoding: "utf8" });
-  return matter(md);
-}
+  constructor(uri: vscode.Uri) {
+    this.uri = uri ?? vscode.window.activeTextEditor?.document.uri;
+    if (!uri) {
+      // from command
+      if (!vscode.window.activeTextEditor?.document) throw Error(l10n.t("noFileOpened"));
 
-export function updateMDContent(filePath: string, issueData: IssueData) {
-  const { content, data } = issueData;
-  const md = matter.stringify(content, data);
-  writeFileSync(filePath, md, { encoding: "utf8" });
+      if (vscode.window.activeTextEditor.document.languageId !== "markdown") throw Error(l10n.t("currentNotMD"));
+
+      this.issueData = matter(vscode.window.activeTextEditor.document.getText());
+      return;
+    }
+    // from menus
+    if (uri.scheme === "untitled") {
+      // untitled
+      const file = vscode.workspace.textDocuments.find((item) => item.isUntitled && item.fileName === uri.fsPath);
+      if (!file) throw Error(`${l10n.t("fileNotFound")}${uri.fsPath}`);
+      this.issueData = matter(file.getText());
+      return;
+    }
+    // file
+    const file = vscode.workspace.textDocuments.find((item) => item.fileName === uri.fsPath);
+    if (file) {
+      this.issueData = matter(file.getText());
+      return;
+    }
+
+    const md = readFileSync(uri.fsPath, { encoding: "utf8" });
+    this.issueData = matter(md);
+  }
+
+  updateMDContent = async (overrideMatterData: MatterData) => {
+    if (vscode.window.activeTextEditor?.document.fileName !== this.uri.fsPath) {
+      const document = await vscode.workspace.openTextDocument(this.uri);
+      await vscode.window.showTextDocument(document);
+    }
+    const activeTextEditor = vscode.window.activeTextEditor;
+    if (activeTextEditor?.document.fileName !== this.uri.fsPath) return;
+    activeTextEditor.edit((editBuilder) => {
+      const originText = activeTextEditor.document.getText();
+      this.issueData = matter(originText);
+      const md = matter.stringify(
+        { content: this.issueData.content },
+        { ...this.issueData.data, ...overrideMatterData }
+      );
+      editBuilder.replace(
+        new vscode.Range(new vscode.Position(0, 0), new vscode.Position(originText.length, originText.length)),
+        md
+      );
+    });
+  };
 }

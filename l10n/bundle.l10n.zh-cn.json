@@ -1,0 +1,25 @@
+{
+  "getPostContent": "获取博客文章内容",
+  "requestAuth": "请求Github授权",
+  "unauthorized": "未获得授权",
+  "getRepository": "获取博客仓库",
+  "createIssue": "创建Issue",
+  "createSuccess": "创建Issue成功",
+  "viewInBrowser": "前往浏览器查看",
+  "updateIssue": "更新Issue",
+  "updateSuccess": "更新Issue成功",
+
+  "noFileOpened": "没有打开的文件",
+  "currentNotMD": "当前文件不是Markdown类型",
+  "fileNotFound": "没有找到文件：",
+
+  "titleEmpty": "标题不能为空",
+  "unkonwnIssue": "未知的Issue",
+  "createFail": "创建Issue失败",
+  "updateFail": "更新Issue失败",
+
+  "getRepositoryFail": "获取仓库列表失败",
+  "noRepository": "您还没有创建Github仓库",
+  "blogRepository": "博客仓库",
+  "slectRepository": "请选择博客的仓库"
+}

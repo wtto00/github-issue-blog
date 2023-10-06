@@ -6,4 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-- Initial release
+## [0.0.1]
+
+First version.
+
+- Github Issue Blog: Create Issue
+- Github Issue Blog: Update Issue
+- Support English and Simplified Chinese
