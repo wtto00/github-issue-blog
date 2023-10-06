@@ -1,0 +1,30 @@
+name: "Publish"
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  Relase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3.1.0
+        with:
+          node-version: 20
+          cache: "npm"
+      - run: npm ci
+
+      - name: Publish to Visual Studio Marketplace
+        uses: HaaLeo/publish-vscode-extension@v1
+        with:
+          pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
+          registryUrl: https://marketplace.visualstudio.com
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: true
+          generate_release_notes: true

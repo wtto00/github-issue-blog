@@ -10,6 +10,9 @@
     "url": "https://github.com/wtto00/github-issue-blog",
     "type": "git"
   },
+  "sponsor": {
+    "url": "https://wtto00.github.io/sponsor/"
+  },
   "keywords": [
     "issue",
     "blog",
@@ -97,7 +100,7 @@
     ]
   },
   "scripts": {
-    "package": "npm run vscode:prepublish && vsce package",
+    "package": "vsce package",
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
