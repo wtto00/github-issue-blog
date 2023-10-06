@@ -5,7 +5,19 @@ on:
       - "v*"
 
 jobs:
-  Relase:
+  Release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: true
+          generate_release_notes: true
+
+  Publish:
+    needs: Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,11 +32,3 @@ jobs:
         with:
           pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
           registryUrl: https://marketplace.visualstudio.com
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          draft: true
-          generate_release_notes: true
