@@ -19,10 +19,6 @@
     "github"
   ],
   "icon": "resources/images/logo.png",
-  "galleryBanner": {
-    "color": "#FF714C",
-    "theme": "dark"
-  },
   "engines": {
     "vscode": "^1.82.0"
   },
