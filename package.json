@@ -2,7 +2,7 @@
   "name": "github-issue-blog",
   "displayName": "Github Issue Blog",
   "description": "A vscode plugin to create a blog with issue",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "wtto00",
   "publisher": "wtto00",
   "license": "MIT",
@@ -28,7 +28,8 @@
   ],
   "activationEvents": [
     "onCommand:github-issue-blog.create",
-    "onCommand:github-issue-blog.update"
+    "onCommand:github-issue-blog.update",
+    "onCommand:github-issue-blog.sync"
   ],
   "main": "./out/extension.js",
   "l10n": "./l10n",
@@ -41,6 +42,10 @@
       {
         "command": "github-issue-blog.update",
         "title": "%commands.update%"
+      },
+      {
+        "command": "github-issue-blog.sync",
+        "title": "%commands.sync%"
       }
     ],
     "menus": {
@@ -52,6 +57,11 @@
         },
         {
           "command": "github-issue-blog.update",
+          "group": "1_modification",
+          "when": "resourceLangId == markdown"
+        },
+        {
+          "command": "github-issue-blog.sync",
           "group": "1_modification",
           "when": "resourceLangId == markdown"
         }
@@ -66,6 +76,11 @@
           "command": "github-issue-blog.update",
           "group": "1_modification",
           "when": "resourceLangId == markdown"
+        },
+        {
+          "command": "github-issue-blog.sync",
+          "group": "1_modification",
+          "when": "resourceLangId == markdown"
         }
       ],
       "editor/title/context": [
@@ -76,6 +91,11 @@
         },
         {
           "command": "github-issue-blog.update",
+          "group": "1_modification",
+          "when": "resourceLangId == markdown"
+        },
+        {
+          "command": "github-issue-blog.sync",
           "group": "1_modification",
           "when": "resourceLangId == markdown"
         }

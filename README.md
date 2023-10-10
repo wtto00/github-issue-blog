@@ -7,6 +7,7 @@ A vscode plugin to create blogs with issue.
 ## Install
 
 - Search for `github issue blog` in the VS Code extension marketplace.
+- Click on the [link](https://marketplace.visualstudio.com/items?itemName=wtto00.github-issue-blog), go to the official extension marketplace, and click on download to install.
 
 ## Configuration
 
@@ -20,6 +21,7 @@ If this configuration is not set, when executing the command, it will prompt the
 
 - Github Issue Blog: Create Issue
 - Github Issue Blog: Update Issue
+- Github Issue Blog: Sync Issue
 
 1. Global command
 
@@ -59,6 +61,6 @@ issue_number: 24
 | labels       | string[] | Labels of issue        |
 | issue_number | number   | Number of issue        |
 
-- `title` is necessary.
-- `labels` are not mandatory, they will be automatically created if they do not exist.
-- `issue_number` is required when updating an issue. When creating an issue, the `issue_number` will be automatically updated to the number of the issue that is created.
+- `title` is required when updating and creating an issue.
+- `labels` are not mandatory, they will be automatically created if they do not exist when updating and creating an issue.
+- `issue_number` is required when updating and synchronizing an issue. When creating an issue, the `issue_number` will be automatically updated to the number of the issue that is created.

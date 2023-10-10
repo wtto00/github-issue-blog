@@ -54,10 +54,7 @@ export class Command {
       const url = await this.github!.createIssue();
 
       this.statusBarItem.hide();
-      const btn = await vscode.window.showInformationMessage(
-        l10n.t("createSuccess"),
-        l10n.t("viewInBrowser")
-      );
+      const btn = await vscode.window.showInformationMessage(l10n.t("createSuccess"), l10n.t("viewInBrowser"));
       if (btn) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -78,15 +75,28 @@ export class Command {
       const url = await this.github!.updateIssue();
 
       this.statusBarItem.hide();
-      const btn = await vscode.window.showInformationMessage(
-        l10n.t("updateSuccess"),
-        l10n.t("viewInBrowser")
-      );
+      const btn = await vscode.window.showInformationMessage(l10n.t("updateSuccess"), l10n.t("viewInBrowser"));
       if (btn) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         await open(url);
       }
+    } catch (error) {
+      vscode.window.showErrorMessage((error as Error).message);
+      this.statusBarItem.hide();
+    }
+  };
+
+  syncIssue = async (uri: vscode.Uri) => {
+    try {
+      this.statusBarItem.show();
+      await this.prepare(uri);
+
+      this.statusBarItem.text = `$(sync~spin) ${l10n.t("syncIssue")}...`;
+      await this.github!.syncIssue();
+
+      this.statusBarItem.hide();
+      vscode.window.showInformationMessage(l10n.t("syncSuccess"));
     } catch (error) {
       vscode.window.showErrorMessage((error as Error).message);
       this.statusBarItem.hide();

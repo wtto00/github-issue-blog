@@ -6,6 +6,16 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.2]
+
+### Added
+
+- Github Issue Blog: Sync Issue
+
+### Fixed
+
+- fix: The top background color on the web page is causing the logo to not be displayed.
+
 ## [0.0.1]
 
 First version.
