@@ -75,6 +75,28 @@ export class Github {
     return res.data.html_url;
   }
 
+  async syncIssue() {
+    const { data = {} } = this.file.issueData;
+    const { issue_number = 0 } = data;
+    this.checkId();
+    const res = await this.octokit.rest.issues.get({
+      owner: this.repo.owner,
+      repo: this.repo.repo,
+      issue_number: issue_number,
+    });
+    if (!res.data) throw Error(l10n.t("syncFail"));
+    this.file.updateMDContent(
+      {
+        title: res.data.title,
+        issue_number,
+        labels: res.data.labels
+          .map((label) => (typeof label === "string" ? label : label.name!))
+          .filter((label) => label),
+      },
+      res.data.body || ""
+    );
+  }
+
   async getIssueList() {
     const res = await this.octokit.rest.issues.listForRepo({
       owner: this.repo.owner,

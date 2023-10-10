@@ -9,8 +9,9 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const _createIssue = vscode.commands.registerCommand("github-issue-blog.create", command.createIssue);
   const _updateIssue = vscode.commands.registerCommand("github-issue-blog.update", command.updateIssue);
+  const _syncIssue = vscode.commands.registerCommand("github-issue-blog.sync", command.syncIssue);
 
-  context.subscriptions.push(_createIssue, _updateIssue);
+  context.subscriptions.push(_createIssue, _updateIssue, _syncIssue);
 }
 
 export function deactivate() {

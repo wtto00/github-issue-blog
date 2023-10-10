@@ -1,6 +1,7 @@
 {
   "commands.create": "Github Issue Blog: Create Issue",
   "commands.update": "Github Issue Blog: Update Issue",
+  "commands.sync": "Github Issue Blog: Sync Issue",
 
   "configuration.repo": "repository name of Github (eg. wtto00/github-issue-blog)"
 }

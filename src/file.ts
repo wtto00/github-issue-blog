@@ -53,7 +53,7 @@ export class FileUtil {
     this.issueData = matter(md);
   }
 
-  updateMDContent = async (overrideMatterData: MatterData) => {
+  updateMDContent = async (overrideMatterData: MatterData, content?: string) => {
     if (vscode.window.activeTextEditor?.document.fileName !== this.uri.fsPath) {
       const document = await vscode.workspace.openTextDocument(this.uri);
       await vscode.window.showTextDocument(document);
@@ -64,7 +64,7 @@ export class FileUtil {
       const originText = activeTextEditor.document.getText();
       this.issueData = matter(originText);
       const md = matter.stringify(
-        { content: this.issueData.content },
+        { content: "\n" + (content ?? this.issueData.content).trimStart() },
         { ...this.issueData.data, ...overrideMatterData }
       );
       editBuilder.replace(
