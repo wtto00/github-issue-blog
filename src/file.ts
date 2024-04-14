@@ -11,6 +11,7 @@ export interface FileInfo {
 export interface MatterData {
   title?: string;
   labels?: string[];
+  assignees?: string[];
   issue_number?: number;
 }
 

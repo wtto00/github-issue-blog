@@ -25,32 +25,38 @@ export class Github {
     this.repo = props.repo;
   }
 
-  checkTitle() {
+  #checkTitle() {
     const { title = "" } = this.file.issueData.data || {};
     if (!title) {
       this.file.updateMDContent({ title: "" });
       throw Error(l10n.t("titleEmpty"));
     }
   }
-  checkId() {
+  #checkId() {
     const { issue_number } = this.file.issueData.data || {};
     if (!issue_number) {
       this.file.updateMDContent({ issue_number: 0 });
       throw Error(l10n.t("unkonwnIssue"));
     }
   }
+  #getAssignees(assignees: string[]) {
+    return assignees
+      .map((assignee) => (assignee.startsWith("@") ? assignee.substring(1) : assignee))
+      .filter((assignee) => assignee);
+  }
 
   async createIssue() {
     const { content, data = {} } = this.file.issueData;
-    const { title = "", labels = [] } = data;
-    this.checkTitle();
+    const { title = "", labels = [], assignees = [] } = data;
+    this.#checkTitle();
 
     const res = await this.octokit.rest.issues.create({
       owner: this.repo.owner,
       repo: this.repo.repo,
       title,
       body: content,
-      labels: labels.map((label) => ({ name: label })),
+      labels: labels.filter((label) => label),
+      assignees: this.#getAssignees(assignees),
     });
     if (!res.data) throw Error(l10n.t("createFail"));
     const number = res.data.number;
@@ -60,15 +66,16 @@ export class Github {
 
   async updateIssue() {
     const { content, data = {} } = this.file.issueData;
-    const { issue_number = 0, title, labels = [] } = data;
-    this.checkId();
+    const { issue_number = 0, title, labels = [], assignees = [] } = data;
+    this.#checkId();
     const res = await this.octokit.rest.issues.update({
       owner: this.repo.owner,
       repo: this.repo.repo,
       issue_number: issue_number,
       title: title,
       body: content,
-      labels: labels.map((label) => ({ name: label })),
+      labels: labels.filter((label) => label),
+      assignees: this.#getAssignees(assignees),
     });
     if (!res.data) throw Error(l10n.t("updateFail"));
     this.file.updateMDContent({});
@@ -78,7 +85,7 @@ export class Github {
   async syncIssue() {
     const { data = {} } = this.file.issueData;
     const { issue_number = 0 } = data;
-    this.checkId();
+    this.#checkId();
     const res = await this.octokit.rest.issues.get({
       owner: this.repo.owner,
       repo: this.repo.repo,
@@ -92,6 +99,7 @@ export class Github {
         labels: res.data.labels
           .map((label) => (typeof label === "string" ? label : label.name!))
           .filter((label) => label),
+        assignees: res.data.assignees?.map((assignee) => `@${assignee.login}`),
       },
       res.data.body || ""
     );

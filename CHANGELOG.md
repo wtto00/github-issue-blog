@@ -6,6 +6,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.3]
+
+### Added
+
+- Add Assignees attribute
+
 ## [0.0.2]
 
 ### Added

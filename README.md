@@ -50,17 +50,22 @@ title: issue-blog-title
 labels:
   - bug
   - abcd
+assignees:
+  - "@wtto00"
+  - wtto00
 issue_number: 24
 ---
 ## Headline
 ```
 
-| Name         | Type     | Notes                  |
-| ------------ | -------- | ---------------------- |
-| title        | string   | Title of the blog post |
-| labels       | string[] | Labels of issue        |
-| issue_number | number   | Number of issue        |
+| Name         | Type     | Notes                          |
+| ------------ | -------- | ------------------------------ |
+| title        | string   | Title of the blog post         |
+| labels       | string[] | Labels of issue                |
+| assignees    | string[] | User ID for Assignees of issue |
+| issue_number | number   | Number of issue                |
 
 - `title` is required when updating and creating an issue.
 - `labels` are not mandatory, they will be automatically created if they do not exist when updating and creating an issue.
+- `assignees` are not mandatory. The format for the assignee is `@<user_id>` or `<user_id>`.
 - `issue_number` is required when updating and synchronizing an issue. When creating an issue, the `issue_number` will be automatically updated to the number of the issue that is created.
