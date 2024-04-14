@@ -1,6 +1,5 @@
 {
   "semanticCommits": "enabled",
-  "baseBranches": ["dev"],
   "schedule": ["every weekend"],
   "packageRules": [
     {
@@ -12,5 +11,6 @@
       "automerge": true
     }
   ],
-  "extends": ["config:base"]
+  "extends": ["config:base"],
+  "ignoreDeps": ["@typescript-eslint/eslint-plugin", "eslint", "eslint-plugin-n", "open"]
 }
