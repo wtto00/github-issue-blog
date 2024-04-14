@@ -1,8 +1,8 @@
-name: "Publish"
+name: 'Publish'
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
 
 jobs:
   Release:
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v3.1.0
         with:
           node-version: 20
-          cache: "npm"
+          cache: 'npm'
       - run: npm ci
 
       - name: Publish to Visual Studio Marketplace
