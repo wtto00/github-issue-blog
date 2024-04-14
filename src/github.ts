@@ -4,14 +4,14 @@ import { FileUtil } from './file'
 import * as l10n from '@vscode/l10n'
 
 export interface RepoInfo {
-  owner: string;
-  repo: string;
+  owner: string
+  repo: string
 }
 
 export interface GithubProps {
-  octokit: Octokit.Octokit;
-  file: FileUtil;
-  repo: RepoInfo;
+  octokit: Octokit.Octokit
+  file: FileUtil
+  repo: RepoInfo
 }
 
 export class Github {
@@ -19,13 +19,13 @@ export class Github {
   file: FileUtil
   repo: RepoInfo
 
-  constructor (props: GithubProps) {
+  constructor(props: GithubProps) {
     this.octokit = props.octokit
     this.file = props.file
     this.repo = props.repo
   }
 
-  #checkTitle () {
+  #checkTitle() {
     const { title = '' } = this.file.issueData.data || {}
     if (!title) {
       void this.file.updateMDContent({ title: '' })
@@ -33,7 +33,7 @@ export class Github {
     }
   }
 
-  #checkId () {
+  #checkId() {
     const { issue_number: issueNumber } = this.file.issueData.data || {}
     if (!issueNumber) {
       void this.file.updateMDContent({ issue_number: 0 })
@@ -41,13 +41,13 @@ export class Github {
     }
   }
 
-  #getAssignees (assignees: string[]) {
+  #getAssignees(assignees: string[]) {
     return assignees
       .map((assignee) => (assignee.startsWith('@') ? assignee.substring(1) : assignee))
       .filter((assignee) => assignee)
   }
 
-  async createIssue () {
+  async createIssue() {
     const { content, data = {} } = this.file.issueData
     const { title = '', labels = [], assignees = [] } = data
     this.#checkTitle()
@@ -66,7 +66,7 @@ export class Github {
     return res.data.html_url
   }
 
-  async updateIssue () {
+  async updateIssue() {
     const { content, data = {} } = this.file.issueData
     const { issue_number: issueNumber = 0, title, labels = [], assignees = [] } = data
     this.#checkId()
@@ -84,7 +84,7 @@ export class Github {
     return res.data.html_url
   }
 
-  async syncIssue () {
+  async syncIssue() {
     const { data = {} } = this.file.issueData
     const { issue_number: issueNumber = 0 } = data
     this.#checkId()
@@ -107,7 +107,7 @@ export class Github {
     )
   }
 
-  async getIssueList () {
+  async getIssueList() {
     const res = await this.octokit.rest.issues.listForRepo({
       owner: this.repo.owner,
       repo: this.repo.repo
@@ -116,7 +116,7 @@ export class Github {
   }
 }
 
-export async function getRepo (octokit: Octokit.Octokit): Promise<RepoInfo> {
+export async function getRepo(octokit: Octokit.Octokit): Promise<RepoInfo> {
   const configuration: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration()
   let repository: string = configuration.get('github-issue-blog.repo') ?? ''
   if (!repository) {
@@ -127,7 +127,10 @@ export async function getRepo (octokit: Octokit.Octokit): Promise<RepoInfo> {
     if (repoList.length === 0) throw Error(l10n.t('noRepository'))
 
     const selectedItem = await vscode.window.showQuickPick(
-      repoList.map((item) => ({ label: item.full_name, description: item.html_url })),
+      repoList.map((item) => ({
+        label: item.full_name,
+        description: item.html_url
+      })),
       {
         title: l10n.t('blogRepository'),
         placeHolder: l10n.t('slectRepository')

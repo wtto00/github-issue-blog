@@ -51,7 +51,7 @@ labels:
   - bug
   - abcd
 assignees:
-  - "@wtto00"
+  - '@wtto00'
   - wtto00
 issue_number: 24
 ---

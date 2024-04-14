@@ -9,12 +9,12 @@ const SCOPES = ['repo']
 export class Credentials {
   private octokit: Octokit.Octokit | undefined
 
-  async initialize (context: vscode.ExtensionContext): Promise<void> {
+  async initialize(context: vscode.ExtensionContext): Promise<void> {
     this.registerListeners(context)
     await this.setOctokit()
   }
 
-  private async setOctokit () {
+  private async setOctokit() {
     /**
      * By passing the `createIfNone` flag, a numbered badge will show up on the accounts activity bar icon.
      * An entry for the sample extension will be added under the menu to sign in. This allows quietly
@@ -33,7 +33,7 @@ export class Credentials {
     this.octokit = undefined
   }
 
-  registerListeners (context: vscode.ExtensionContext): void {
+  registerListeners(context: vscode.ExtensionContext): void {
     /**
      * Sessions are changed when a user logs in or logs out.
      */
@@ -46,7 +46,7 @@ export class Credentials {
     )
   }
 
-  async getOctokit (): Promise<Octokit.Octokit> {
+  async getOctokit(): Promise<Octokit.Octokit> {
     if (this.octokit) {
       return this.octokit
     }

@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { Command } from './commands'
 
-export async function activate (context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
   console.log('Extension "github-issue-blog" is now active!')
 
   const command = new Command(context)
@@ -14,6 +14,6 @@ export async function activate (context: vscode.ExtensionContext) {
   context.subscriptions.push(_createIssue, _updateIssue, _syncIssue)
 }
 
-export function deactivate () {
+export function deactivate() {
   // do nothing
 }

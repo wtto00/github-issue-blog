@@ -4,33 +4,37 @@ import * as matter from 'gray-matter'
 import * as l10n from '@vscode/l10n'
 
 export interface FileInfo {
-  path: string;
-  isUntitled?: boolean;
+  path: string
+  isUntitled?: boolean
 }
 
 export interface MatterData {
-  title?: string;
-  labels?: string[];
-  assignees?: string[];
-  issue_number?: number;
+  title?: string
+  labels?: string[]
+  assignees?: string[]
+  issue_number?: number
 }
 
 export interface IssueData {
-  content: string;
-  data: MatterData;
+  content: string
+  data: MatterData
 }
 
 export class FileUtil {
   issueData: IssueData
   uri: vscode.Uri
 
-  constructor (uri: vscode.Uri) {
+  constructor(uri: vscode.Uri) {
     this.uri = uri ?? vscode.window.activeTextEditor?.document.uri
     if (!uri) {
       // from command
-      if (!vscode.window.activeTextEditor?.document) throw Error(l10n.t('noFileOpened'))
+      if (!vscode.window.activeTextEditor?.document) {
+        throw Error(l10n.t('noFileOpened'))
+      }
 
-      if (vscode.window.activeTextEditor.document.languageId !== 'markdown') throw Error(l10n.t('currentNotMD'))
+      if (vscode.window.activeTextEditor.document.languageId !== 'markdown') {
+        throw Error(l10n.t('currentNotMD'))
+      }
 
       this.issueData = matter(vscode.window.activeTextEditor.document.getText())
       return

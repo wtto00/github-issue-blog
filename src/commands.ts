@@ -8,9 +8,9 @@ import { initL10n } from './i10n'
 import * as l10n from '@vscode/l10n'
 
 export interface CommandParmas {
-  uri?: vscode.Uri;
-  credentials: Credentials;
-  statusBarItem: vscode.StatusBarItem;
+  uri?: vscode.Uri
+  credentials: Credentials
+  statusBarItem: vscode.StatusBarItem
 }
 
 export class Command {
@@ -20,18 +20,18 @@ export class Command {
 
   github?: Github
 
-  constructor (context: vscode.ExtensionContext) {
+  constructor(context: vscode.ExtensionContext) {
     this.#context = context
     this.#credentials = new Credentials()
     this.statusBarItem = initStatusBar(this.#context.subscriptions)
   }
 
-  async init () {
+  async init() {
     await this.#credentials.initialize(this.#context)
     initL10n()
   }
 
-  async prepare (uri: vscode.Uri) {
+  async prepare(uri: vscode.Uri) {
     this.statusBarItem.text = `$(sync~spin) ${l10n.t('getPostContent')}...`
     const file = new FileUtil(uri)
 
