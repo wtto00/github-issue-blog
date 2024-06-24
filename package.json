@@ -148,7 +148,7 @@
     "typescript-eslint": "^7.13.1"
   },
   "dependencies": {
-    "@octokit/rest": "^21.0.0",
+    "@octokit/rest": "^20.1.1",
     "@vscode/l10n": "^0.0.18",
     "gray-matter": "^4.0.3",
     "open": "^8.4.2"
