@@ -70,11 +70,11 @@ export class FileUtil {
       this.issueData = matter(originText)
       const md = matter.stringify(
         { content: '\n' + (content ?? this.issueData.content).trimStart() },
-        { ...this.issueData.data, ...overrideMatterData }
+        { ...this.issueData.data, ...overrideMatterData },
       )
       editBuilder.replace(
         new vscode.Range(new vscode.Position(0, 0), new vscode.Position(originText.length, originText.length)),
-        md
+        md,
       )
     })
   }

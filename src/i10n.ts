@@ -9,6 +9,6 @@ export function initL10n() {
     lPath = uri.fsPath
   }
   l10n.config({
-    fsPath: lPath
+    fsPath: lPath,
   })
 }
