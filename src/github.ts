@@ -58,7 +58,7 @@ export class Github {
       title,
       body: content,
       labels: labels.filter((label) => label),
-      assignees: this.#getAssignees(assignees)
+      assignees: this.#getAssignees(assignees),
     })
     if (!res.data) throw Error(l10n.t('createFail'))
     const number = res.data.number
@@ -77,7 +77,7 @@ export class Github {
       title,
       body: content,
       labels: labels.filter((label) => label),
-      assignees: this.#getAssignees(assignees)
+      assignees: this.#getAssignees(assignees),
     })
     if (!res.data) throw Error(l10n.t('updateFail'))
     void this.file.updateMDContent({})
@@ -91,7 +91,7 @@ export class Github {
     const res = await this.octokit.rest.issues.get({
       owner: this.repo.owner,
       repo: this.repo.repo,
-      issue_number: issueNumber
+      issue_number: issueNumber,
     })
     if (!res.data) throw Error(l10n.t('syncFail'))
     void this.file.updateMDContent(
@@ -101,16 +101,16 @@ export class Github {
         labels: res.data.labels
           .map((label) => (typeof label === 'string' ? label : label.name!))
           .filter((label) => label),
-        assignees: res.data.assignees?.map((assignee) => `@${assignee.login}`)
+        assignees: res.data.assignees?.map((assignee) => `@${assignee.login}`),
       },
-      res.data.body ?? ''
+      res.data.body ?? '',
     )
   }
 
   async getIssueList() {
     const res = await this.octokit.rest.issues.listForRepo({
       owner: this.repo.owner,
-      repo: this.repo.repo
+      repo: this.repo.repo,
     })
     console.log('getIssueList', res.data)
   }
@@ -129,12 +129,12 @@ export async function getRepo(octokit: Octokit.Octokit): Promise<RepoInfo> {
     const selectedItem = await vscode.window.showQuickPick(
       repoList.map((item) => ({
         label: item.full_name,
-        description: item.html_url
+        description: item.html_url,
       })),
       {
         title: l10n.t('blogRepository'),
-        placeHolder: l10n.t('slectRepository')
-      }
+        placeHolder: l10n.t('slectRepository'),
+      },
     )
     if (!selectedItem) throw Error(l10n.t('slectRepository'))
 

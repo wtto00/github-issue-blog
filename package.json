@@ -127,28 +127,25 @@
     "test": "node ./out/test/runTest.js",
     "prepare": "husky && echo npx lint-staged > .husky/pre-commit"
   },
+  "overrides": {
+    "eslint": "^9.5.0"
+  },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.0.2",
-    "@eslint/js": "^9.0.0",
+    "@eslint/js": "^9.5.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.12.7",
     "@types/vscode": "^1.88.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@vscode/l10n-dev": "^0.0.35",
     "@vscode/test-electron": "^2.3.9",
-    "eslint": "^8.57.0",
-    "eslint-config-standard-with-typescript": "^43.0.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1",
+    "eslint": "^9.5.0",
     "glob": "^10.3.12",
-    "globals": "^15.0.0",
+    "globals": "^15.6.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "mocha": "^10.4.0",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.5",
-    "typescript-eslint": "^7.6.0"
+    "typescript": ">=4.7.4 <5.5.0",
+    "typescript-eslint": "^7.13.1"
   },
   "dependencies": {
     "@octokit/rest": "^21.0.0",
