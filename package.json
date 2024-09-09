@@ -133,7 +133,7 @@
   "devDependencies": {
     "@eslint/js": "^9.9.1",
     "@types/mocha": "^10.0.6",
-    "@types/node": "^22.5.2",
+    "@types/node": "^22.5.4",
     "@types/vscode": "^1.92.0",
     "@vscode/l10n-dev": "^0.0.35",
     "@vscode/test-electron": "^2.4.1",
