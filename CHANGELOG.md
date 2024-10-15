@@ -12,11 +12,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Change package manager from `pnpm` to `npm`. (https://github.com/microsoft/vscode-vsce/issues/421#issuecomment-1853833167)
 
-## [0.0.4] 2024-10-15
+## ~~[0.0.4] 2024-10-15~~
 
 ### Added
 
 - When setting up the blog repository, display the repository list in a paginated manner.
+
+**This version has been broken by the `pnpm` package manager.**
 
 ## [0.0.3] 2024-04-15
 
