@@ -6,6 +6,7 @@
   "author": "wtto00",
   "publisher": "wtto00",
   "license": "MIT",
+  "packageManager": "pnpm@9.12.1",
   "repository": {
     "url": "https://github.com/wtto00/github-issue-blog",
     "type": "git"
@@ -144,7 +145,7 @@
     "lint-staged": "^15.2.10",
     "mocha": "^10.7.3",
     "prettier": "^3.3.3",
-    "typescript": ">=4.7.4 <5.5.0",
+    "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.0"
   },
   "dependencies": {
