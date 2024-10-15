@@ -24,5 +24,8 @@
   "getRepositoryFail": "Failed to retrieve the list of repositories",
   "noRepository": "You have not created a GitHub repository yet",
   "blogRepository": "Repository of blog",
-  "slectRepository": "Please select the repository for the blog."
+  "slectRepository": "Please select the repository for the blog.",
+
+  "prevPage": "Previous page",
+  "nextPage": "Next page"
 }
