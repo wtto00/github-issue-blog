@@ -2,11 +2,11 @@
   "name": "github-issue-blog",
   "displayName": "Github Issue Blog",
   "description": "A vscode plugin to create a blog with issue",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "wtto00",
   "publisher": "wtto00",
   "license": "MIT",
-  "packageManager": "pnpm@9.12.1",
+  "packageManager": "npm@10.8.1",
   "repository": {
     "url": "https://github.com/wtto00/github-issue-blog",
     "type": "git"
