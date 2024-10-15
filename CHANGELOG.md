@@ -6,6 +6,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.5] 2024-10-15
+
+### Fixed
+
+- Change package manager from `pnpm` to `npm`. (https://github.com/microsoft/vscode-vsce/issues/421#issuecomment-1853833167)
+
 ## [0.0.4] 2024-10-15
 
 ### Added
