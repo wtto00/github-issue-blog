@@ -6,13 +6,19 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-## [0.0.3]
+## [0.0.4] 2024-10-15
+
+### Added
+
+- When setting up the blog repository, display the repository list in a paginated manner.
+
+## [0.0.3] 2024-04-15
 
 ### Added
 
 - Add Assignees attribute
 
-## [0.0.2]
+## [0.0.2] 2023-08-10
 
 ### Added
 
@@ -22,7 +28,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - fix: The top background color on the web page is causing the logo to not be displayed.
 
-## [0.0.1]
+## [0.0.1] 2023-08-07
 
 First version.
 
