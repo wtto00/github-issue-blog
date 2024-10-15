@@ -6,11 +6,19 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-## [0.0.5] 2024-10-15
+## [0.0.6] 2024-10-16
+
+### Fixed
+
+- Failed to package by github action `HaaLeo/publish-vscode-extension`.
+
+## ~~[0.0.5] 2024-10-15~~
 
 ### Fixed
 
 - Change package manager from `pnpm` to `npm`. (https://github.com/microsoft/vscode-vsce/issues/421#issuecomment-1853833167)
+
+**This version has been broken by `HaaLeo/publish-vscode-extension` action.**
 
 ## ~~[0.0.4] 2024-10-15~~
 
