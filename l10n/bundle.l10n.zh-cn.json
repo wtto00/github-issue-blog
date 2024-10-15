@@ -24,5 +24,8 @@
   "getRepositoryFail": "获取仓库列表失败",
   "noRepository": "您还没有创建Github仓库",
   "blogRepository": "博客仓库",
-  "slectRepository": "请选择博客的仓库"
+  "slectRepository": "请选择博客的仓库",
+
+  "prevPage": "上一页",
+  "nextPage": "下一页"
 }
