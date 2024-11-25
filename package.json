@@ -133,7 +133,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
-    "@types/mocha": "^10.0.8",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^22.9.0",
     "@types/vscode": "1.95.0",
     "@vscode/l10n-dev": "^0.0.35",
